@@ -2,7 +2,9 @@ site_name: Smart House (Warm Houce) Documentation
 theme: readthedocs
 markdown_extensions:
   - md_in_html
+  - meta
   - plantuml_markdown:
       server: https://www.plantuml.com/plantuml/
 plugins:
   - search
+  - swagger-ui-tag
