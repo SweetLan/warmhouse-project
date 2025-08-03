@@ -27,10 +27,10 @@ jobs:
 
     - name: Generate Diagrams
       run: |
-        plantuml diagrams/context/*.puml
-        plantuml diagrams/container/*.puml
-        plantuml diagrams/component/*.puml
-        plantuml diagrams/code/*.puml
+        plantuml -failfast false diagrams/context/*.puml
+        plantuml -failfast false diagrams/container/*.puml
+        plantuml -failfast false diagrams/component/*.puml
+        plantuml -failfast false diagrams/code/*.puml
 
     - name: Commit Diagrams
       run: |
