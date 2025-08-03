@@ -1,3 +1,5 @@
+# Диаграмма кода компонента управления устройствами
+```plantuml
 @startuml CodeDiagram
 title Классы: Устройство и управление
 
@@ -30,3 +32,4 @@ Device "1" -- "1" DeviceType : has
 Device "1" -- "1" DeviceState : has
 
 @enduml
+```

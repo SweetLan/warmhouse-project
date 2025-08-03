@@ -1,4 +1,7 @@
-@startuml component
+# Диаграмма компонентов "Управления устройствами" WarmHouse
+
+```plantuml
+@startuml
 title ToolService Component Diagram (Управление устройствами)
 
 top to bottom direction
@@ -33,3 +36,4 @@ Rel(DeviceCommunicator, Tools, "MQTT / TCP")
 Rel(DeviceRepository, deviceDb, "Чтение/запись конфигурации", "SQL")
 
 @enduml
+```
