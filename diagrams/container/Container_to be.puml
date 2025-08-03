@@ -1,0 +1,61 @@
+@startuml
+title Smart House Container Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Пользователь", "Пользователь системы Умный дом")
+Person(admin, "Администратор", "Администратор управляет системой Умный дом")
+Person(support, "Специалист тех.поддержки", "Предоставляет поддержку пользователям системы")
+System(SmartHouse,"Умный дом", "Система управляет устройствами и обеспечивает удаленное наблюдение за домом")
+
+Container_Boundary(SmartHouse, "Умный дом") {
+  Container(WebApp, "Web Application", "Go, Gin", "Web-интерфейс для пользователей и администраторов")
+  Container(apiGateway, "API Gateway", "NGINX", "Единая точка входа в систему")
+  Container(UserService, "User Service", "Go", "Регистрация, авторизация, управление профилем")
+  Container(ToolService, "Tool Service", "Go", "Управление устройствами: добавление, настройка, удаление")
+  Container(TelemetryService, "Telemetry Service", "Go", "Сбор, хранение и выдача телеметрии с устройств")
+  Container(ScenarioManager, "Scenario Service", "Go", "Сценарии и автоматизация умного дома")
+  Container(WarmService, "Warm Service", "Go", "Управление отоплением")
+  Container(LightService, "Light Service", "Go", "Управление освещением")
+  Container(GateService, "Gate Service", "Go", "Управление воротами")
+  Container(VideoService, "Video Service", "Go", "Управление камерами и видео")
+  ContainerDb(userDb, "БД пользователей", "PostgreSQL", "Данные о пользователях")
+  ContainerDb(deviceDb, "БД устройств", "PostgreSQL", "Конфигурация и состояние устройств")
+  ContainerDb(telemetryDb, "Telemetry DB", "PostgreSQL", "Хранение телеметрии с датчиков")
+}
+
+System_Ext(Tools, "Устройства умного дома", "Датчики, камеры, реле и другое оборудование")
+
+' --- Роли пользователей
+Rel(user, WebApp, "Использует Web-интерфейс", "HTTPS")
+Rel(admin, WebApp, "Управление пользователями и устройствами", "HTTPS")
+Rel(support, WebApp, "Техподдержка пользователей", "HTTPS")
+
+' --- Связи WebApp → API Gateway → Backend
+Rel(WebApp, apiGateway, "Вызывает API", "REST / JSON")
+Rel(apiGateway, UserService, "Авторизация, регистрация","REST / JSON")
+Rel(apiGateway, ToolService, "Управление устройствами","REST / JSON")
+Rel(apiGateway, WarmService, "Включение/выключение отопления","REST / JSON")
+Rel(apiGateway, LightService, "Управление освещением","REST / JSON")
+Rel(apiGateway, GateService, "Управление воротами","REST / JSON")
+Rel(apiGateway, VideoService, "Управление камерами","REST / JSON")
+Rel(apiGateway, TelemetryService, "Получение телеметрии","REST / JSON")
+Rel(apiGateway, ScenarioManager, "Создание/запуск сценариев","REST / JSON")
+
+' --- Связи между сервисами и базами данных
+Rel(UserService, userDb, "Чтение/запись пользователей", "SQL")
+Rel(ToolService, deviceDb, "Чтение/запись устройств", "SQL")
+Rel(TelemetryService, telemetryDb, "Чтение/запись телеметрии", "SQL")
+
+
+' --- Взаимодействие с устройствами
+Rel(ToolService, Tools, "Настраивает и управляет устройствами", "TCP")
+Rel(WarmService, Tools, "Включает/выключает отопление", "TCP")
+Rel(LightService, Tools, "Управляет освещением", "TCP")
+Rel(GateService, Tools, "Открывает/закрывает ворота", "TCP")
+Rel(VideoService, Tools, "Доступ к камерам", "RTSP / ONVIF")
+Rel(TelemetryService, Tools, "Собирает данные с датчиков", "MQTT / JSON")
+
+@enduml
