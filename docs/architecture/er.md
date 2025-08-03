@@ -1,0 +1,73 @@
+# ER-диаграмма
+
+```plantuml
+
+
+@startuml
+entity User {
+  *id : UUID
+  --
+  name : string
+  email : string
+  password_hash : string
+  created_at : datetime
+}
+
+entity House {
+  *id : UUID
+  --
+  user_id : UUID
+  address : string
+  name : string
+}
+
+entity DeviceType {
+  *id : UUID
+  --
+  name : string
+  description : string
+}
+
+entity Device {
+  *id : UUID
+  --
+  house_id : UUID
+  type_id : UUID
+  serial_number : string
+  state : string
+  name : string
+}
+
+entity ModuleType {
+  *id : UUID
+  --
+  name : string
+  description : string
+}
+
+entity Module {
+  *id : UUID
+  --
+  device_id : UUID
+  type_id : UUID
+  name : string
+  firmware_version : string
+}
+
+entity TelemetryData {
+  *id : UUID
+  --
+  module_id : UUID
+  timestamp : datetime
+  value : float
+  unit : string
+}
+
+User ||--o{ House : "имеет"
+House ||--o{ Device : "содержит"
+DeviceType ||--o{ Device : "является"
+Device ||--o{ Module : "имеется"
+ModuleType ||--o{ Module : "является"
+Module ||--o{ TelemetryData : "создает"
+@enduml
+```

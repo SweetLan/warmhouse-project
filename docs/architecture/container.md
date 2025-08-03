@@ -1,3 +1,6 @@
+# Диаграмма контейнеров WarmHouse
+
+```plantuml
 @startuml container
 title Smart House Container Diagram
 
@@ -59,3 +62,5 @@ Rel(VideoService, Tools, "Доступ к камерам", "RTSP / ONVIF")
 Rel(TelemetryService, Tools, "Собирает данные с датчиков", "MQTT / JSON")
 
 @enduml
+
+```

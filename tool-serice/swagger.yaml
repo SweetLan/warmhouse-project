@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Device Control API
+  version: 1.0.0
+paths:
+  /devices/{house_id}:
+    get:
+      summary: Получить все устройства в доме
+      parameters:
+        - in: path
+          name: house_id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Список устройств
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Пример списка устройств
+                  value:
+                    - id: "device123"
+                      name: "Лампа в гостиной"
+                      type: "LIGHT"
+                      state: "ON"
+                      modules:
+                        - id: "mod1"
+                          name: "Диммер"
+                          version: "1.0"
+                          type: "DimmingControl"
+                        - id: "mod2"
+                          name: "Датчик температуры"
+                          version: "1.1"
+                          type: "TemperatureSensor"
+                    - id: "device456"
+                      name: "Камера на входе"
+                      type: "CAMERA"
+                      state: "OFF"
+                      modules: []
+
+  /device/{device_id}/status:
+    get:
+      summary: Получить статус устройства
+      parameters:
+        - in: path
+          name: device_id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Статус устройства
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Пример статуса устройства
+                  value:
+                    id: "device123"
+                    name: "Лампа в гостиной"
+                    type: "LIGHT"
+                    state: "ON"
+                    modules:
+                      - id: "mod1"
+                        name: "Диммер"
+                        version: "1.0"
+                        type: "DimmingControl"
+        404:
+          description: Устройство не найдено
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Пример ошибки при несуществующем устройстве
+                  value:
+                    error: "Device with id 'device999' not found"
+
+  /device/{device_id}/on:
+    post:
+      summary: Включить устройство
+      parameters:
+        - in: path
+          name: device_id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Устройство включено
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Пример успешного включения устройства
+                  value:
+                    message: "Device device123 is now ON"
+
+  /device/{device_id}/off:
+    post:
+      summary: Выключить устройство
+      parameters:
+        - in: path
+          name: device_id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Устройство выключено
+          content:
+            application/json:
+              examples:
+                example-1:
+                  summary: Пример успешного выключения устройства
+                  value:
+                    message: "Device device123 is now OFF"

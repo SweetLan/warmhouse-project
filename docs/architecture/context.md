@@ -1,3 +1,6 @@
+# Контекстная диаграмма WarmHouse
+
+```plantuml
 @startuml context-diagram
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
 
@@ -16,3 +19,4 @@ Rel(admin, WarmHouse, "Подключение системы отопления 
 Rel(WarmHouse, warm, "Запрос данных о температуре с датчиков, установленных в домах", "HTTPS / JSON")
 
 @enduml
+```
