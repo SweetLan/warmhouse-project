@@ -132,5 +132,7 @@
 
 http://localhost:8081/temperature?location=Living%20Room - работает
 
+Изменения для pull request
+
 
 
